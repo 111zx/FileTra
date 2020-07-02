@@ -3,28 +3,13 @@ import java.io.*;
 
 import java.net.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Scanner;
 
-import java.util.concurrent.ExecutorService;
-
-import java.util.concurrent.Executors;
-
-import java.util.concurrent.ThreadPoolExecutor;
-
-
-
-
-
-public class FileServer2 extends Thread{
+public class FileServer extends Thread{
 
 	private static Socket s;
 	private static ServerSocket serverSocket;
 	private File source;
-	public FileServer2(Socket s, File source) {
+	public FileServer(Socket s, File source) {
 		super();
 		this.s = s;
 		this.source = source;
@@ -81,7 +66,6 @@ public class FileServer2 extends Thread{
 				dos.close();
 				System.out.println("传输完成");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -101,7 +85,7 @@ public class FileServer2 extends Thread{
 			Socket s = server.accept();
 			System.out.println(s.getInetAddress().getHostAddress()+"进入服务器,准备传输...");
 			//根据每一个连接的客户端启动一条子线程
-			new FileServer2(s, source).start();
+			new FileServer(s, source).start();
 		}
 	}
 

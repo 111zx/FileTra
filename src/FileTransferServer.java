@@ -1,6 +1,3 @@
-
-
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
@@ -44,7 +41,6 @@ public class FileTransferServer extends Thread{
                 dos.close();
                 System.out.println("´«ÊäÍê³É");
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 

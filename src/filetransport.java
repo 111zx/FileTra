@@ -87,8 +87,7 @@ public class filetransport extends JFrame implements ActionListener
 	public void actionPerformed(ActionEvent eo)  // 对时间进行处理
 
 	{
-		if(eo.getSource() == dl2){   
-			System.out.println("11111");
+		if(eo.getSource() == dl2){
 			try {
 				new FileTransferClient().sendFile(zh2.getText());
 			} catch (UnknownHostException e) {
@@ -98,12 +97,10 @@ public class filetransport extends JFrame implements ActionListener
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("22222");
 		}
 		else if(eo.getSource() == dl1){
 			try {
 				new fClient().receive(zh1.getText());
-				System.out.println("111112");
 			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -111,7 +108,6 @@ public class filetransport extends JFrame implements ActionListener
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("111115");
 		}
 		else if(eo.getSource() == dl3){
 			  f.setVisible(false);

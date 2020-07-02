@@ -33,7 +33,6 @@ public class FileTransferClient {
                     int slen = 0;
                     while ((slen = sdis.read(sbuf)) != -1) {
                         sdos.write(sbuf, 0, slen);
-
                     }
                     sdos.flush();
                     sdis.close();
