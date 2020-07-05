@@ -1,7 +1,4 @@
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -13,7 +10,8 @@ public class FileTransferServer extends Thread{
 
     private int port = 6787;
     private static ServerSocket serverSocket;
-    private static String fileName="D:\\默认.txt";
+    private static String fileName="C:\\Users\\14914\\Desktop\\test";
+    private static String fname="默认.txt";
 
     public FileTransferServer() throws IOException {
         serverSocket = new ServerSocket(port);
@@ -26,11 +24,17 @@ public class FileTransferServer extends Thread{
                 Socket socket = null;
 
                 socket = serverSocket.accept();
-
+                //先读文件名
+                InputStream is = socket.getInputStream();
+                int len1;
+                byte[] bs = new byte[1024];
+                //先读文件名
+                len1 = is.read(bs);
+                String name = new String(bs, 0, len1);
+                System.out.println(name+"---");
                 DataInputStream dis = new DataInputStream(socket.getInputStream());
-                DataOutputStream dos = new DataOutputStream(new FileOutputStream(fileName));
-
-                byte[] buf = new byte[1027 * 9];
+                DataOutputStream dos = new DataOutputStream(new FileOutputStream(fileName+"\\"+name));
+                byte[] buf = new byte[1024 * 9];
                 int len = 0;
 
                 while ((len = dis.read(buf)) != -1) {

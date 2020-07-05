@@ -23,20 +23,23 @@ public class fClient {
 		
 		//建立连接
 		Socket s = new Socket("127.0.0.1",6788);
-		//获取socket的输入流
-		InputStream is = s.getInputStream();
-		DataInputStream dis = new DataInputStream(is);
-		
-		//准备file对象接受socket中的数据
-		File f = new File(filepath);
-		FileOutputStream fos = new FileOutputStream(f);
+//		//获取socket的输入流
+//		InputStream is = s.getInputStream();
+//		DataInputStream dis = new DataInputStream(is);
+//
+//		//准备file对象接受socket中的数据
+//		File f = new File(filepath);
+//		FileOutputStream fos = new FileOutputStream(f);
+		DataInputStream dis = new DataInputStream(s.getInputStream());
+		DataOutputStream fos = new DataOutputStream(new FileOutputStream(filepath));
 	
-		byte[] b = new byte[1027*9];
+		byte[] b = new byte[1024*9];
 		int len = 0;
 		while((len = dis.read(b)) != -1){
+			System.out.println("aaa");
 			fos.write(b, 0, len);
 		}
-		System.out.println("接收完成");
+		System.out.println("下载完成");
 		fos.close();
 		dis.close();
 		s.close();

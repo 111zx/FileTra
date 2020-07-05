@@ -27,10 +27,12 @@ public class FileTransferClient {
 
                 try {
                     File sfile = new File(sfilePath);
+                    System.out.println(sfilePath);
                     DataInputStream sdis = new DataInputStream(new FileInputStream(sfilePath));
                     DataOutputStream sdos = new DataOutputStream(clientSocket.getOutputStream());
                     byte[] sbuf = new byte[1024 * 9];
                     int slen = 0;
+                    sdos.write(sfile.getName().getBytes());
                     while ((slen = sdis.read(sbuf)) != -1) {
                         sdos.write(sbuf, 0, slen);
                     }
