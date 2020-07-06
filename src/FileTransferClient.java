@@ -16,12 +16,37 @@ import java.net.Socket;
 public class FileTransferClient {
     private String host = "127.0.0.1";
     private int port =6787;
-    private Socket clientSocket;;
+    private int port1 =6788;
+    private Socket clientSocket;
 
     public FileTransferClient() throws IOException {
     	clientSocket = new Socket(host, port);
     }
+    public FileTransferClient(String temp) throws IOException {
+        clientSocket = new Socket(host, port1);
+    }
+    void sendM(String sfilePath){
+        DataOutputStream sdos = null;
+        try {
+            System.out.println(sfilePath);
+            sdos = new DataOutputStream(clientSocket.getOutputStream());
+            sdos.write(sfilePath.getBytes());
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            if(sdos != null)
+                try {
+                    sdos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+        }
 
+    }
     void sendFile(String sfilePath) {
 
 

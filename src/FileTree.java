@@ -206,7 +206,12 @@ public class FileTree extends JDialog {
                                         value[i][j] = table1.getValueAt(i, j).toString().trim();
                                     }
                                 }
-                                serverfilename = clientFilePath+"\\"+value[rowcount][0];
+                                serverfilename = serverFilePath+"\\"+value[rowcount][0];
+                                try {
+                                    new FileTransferClient("test").sendM(serverfilename);
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
                                 try {
                                     new fClient().receive(clientFilePath+"\\"+value[rowcount][0]);
                                 } catch (IOException ex) {
