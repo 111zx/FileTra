@@ -4,6 +4,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class fileaddsql {
+    /**
+     * 服务端数据库内文件的存储
+     * @param name 文件名
+     * @param size 文件大小
+     * @param path 文件路径
+     */
     public void fileAdd(String name, long size, String path) {
         PreparedStatement ps = null;
         Connection ct = null;

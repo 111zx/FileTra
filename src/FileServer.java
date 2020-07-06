@@ -9,9 +9,9 @@ public class FileServer extends Thread{
 
 	private static Socket s;
 	private static ServerSocket serverSocket;
-	private File source = new File("C:\\Users\\14914\\Desktop\\test\\moren55.txt");
+	private File source = new File("C:\\Users\\14914\\Desktop\\test\\moren55.txt");//服务端显示文件的存放位置
 	static ServerSocket server;
-
+	//6788端口负责向客户端发送文件
 	static {
 		try {
 			server = new ServerSocket(6788);
@@ -25,15 +25,21 @@ public class FileServer extends Thread{
 		this.s = s;
 		this.source = source;
 	}
+
+	/**
+	 * 获取想要客户端下载的目标文件的文件名
+	 * @param s
+	 * @return
+	 * @throws IOException
+	 */
 	public static String getfilepath(Socket s) throws IOException {
 		String name = null;
 		InputStream is = null;
 		try {
-			//先读文件名
+			//读取文件名
 			is = s.getInputStream();
 			int len1;
 			byte[] bs = new byte[1024];
-			//先读文件名
 			len1 = is.read(bs);
 			name = new String(bs, 0, len1);
 		} catch (IOException e) {
@@ -41,6 +47,7 @@ public class FileServer extends Thread{
 		}
 		return name;
 	}
+
 	@Override
 	public void run() {
 		DataInputStream bis = null;
@@ -52,7 +59,6 @@ public class FileServer extends Thread{
 				//获取socket的输出流并包装
 				Socket s = server.accept();
 				bos = new DataOutputStream(s.getOutputStream());
-
 				byte[] b = new byte[1027 * 9];
 				int len = 0;
 				System.out.println("向 " + s.getInetAddress().getHostAddress() + "开始传输....");
@@ -73,37 +79,10 @@ public class FileServer extends Thread{
 				}
 			}
 	}
-//	private static void receieveFile(String filePath) {
-//		while (true) {
-//			try {
-//				Socket socket = null;
-//
-//				socket = serverSocket.accept();
-//
-//				DataInputStream dis = new DataInputStream(socket.getInputStream());
-//				DataOutputStream dos = new DataOutputStream(new FileOutputStream(filePath));
-//
-//				byte[] buf = new byte[1027 * 9];
-//				int len = 0;
-//
-//				while ((len = dis.read(buf)) != -1) {
-//					dos.write(buf, 0, len);
-//				}
-//				dos.flush();
-//				dis.close();
-//				dos.close();
-//				System.out.println("传输完成");
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//
-//		}
-//
-//	}
 
 	public  static void main(String[] args) throws IOException {
 		System.out.println("SOFEEM文件服务器已启动,等待连接...");
-		//循环监听
+		//循环监听是否有客户端上传到服务器文件
 		new FileTransferServer().start();
 		while(true){
 			File source = new File(new FileTree().serverfilename);

@@ -19,12 +19,27 @@ public class FileTransferClient {
     private int port1 =6788;
     private Socket clientSocket;
 
+    /**
+     * 对应6787端口的构造器：完成上传文件功能
+     * @throws IOException
+     */
     public FileTransferClient() throws IOException {
     	clientSocket = new Socket(host, port);
     }
+
+    /**
+     * 对应6788端口的构造器：完成下载文件功能
+     * @param temp
+     * @throws IOException
+     */
     public FileTransferClient(String temp) throws IOException {
         clientSocket = new Socket(host, port1);
     }
+
+    /**
+     * 向服务器端发送想要下载的目标文件的文件名
+     * @param sfilePath
+     */
     void sendM(String sfilePath){
         DataOutputStream sdos = null;
         try {
@@ -47,6 +62,11 @@ public class FileTransferClient {
         }
 
     }
+
+    /**
+     * 向服务器端上传文件
+     * @param sfilePath：对应本地文件路径
+     */
     void sendFile(String sfilePath) {
 
 
@@ -73,8 +93,4 @@ public class FileTransferClient {
                 }
 
             }
-    public static void main(String[] args) throws IOException {
-        new FileTransferClient().sendFile("D:\\四季.mp3");
-    }
-
 }

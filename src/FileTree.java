@@ -37,12 +37,16 @@ public class FileTree extends JDialog {
     private static String filepath;
     private static String serverFilePath = "C:\\Users\\14914\\Desktop\\test";
     private static String clientFilePath = "C:\\Users\\14914\\Desktop\\clienttest";
-    public  static String serverfilename = "C:\\Users\\14914\\Desktop\\test\\moren.txt";
+    public static String serverfilename = "C:\\Users\\14914\\Desktop\\test\\moren.txt";
 
     public FileTree() {
         init();
     }
-    public FileTree(String serverfilename){};
+
+    public FileTree(String serverfilename) {
+    }
+
+    ;
 
     private void init() {
         JPanel labelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -146,7 +150,7 @@ public class FileTree extends JDialog {
                         for (File f : fs) {                    //遍历File[]数组
                             if (datas[rowcount][0].equals(f.getName())) {        //若非目录(即文件)，则打印
                                 System.out.println(datas[rowcount][0]);
-                                new fileaddsql().fileAdd(f.getName(),f.length(),serverFilePath+"\\"+f.getName());
+                                new fileaddsql().fileAdd(f.getName(), f.length(), serverFilePath + "\\" + f.getName());
                             }
                         }
                         try {
@@ -197,26 +201,22 @@ public class FileTree extends JDialog {
                         download1.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent a) {
                                 int rowcount = table1.getSelectedRow();
-                                int column = table1.getColumnCount();		// 表格列数
-                                int row = table1.getRowCount();		// 表格行数
+                                int column = table1.getColumnCount();        // 表格列数
+                                int row = table1.getRowCount();        // 表格行数
                                 // value数组存放表格中的所有数据
                                 String[][] value = new String[row][column];
-                                for(int i = 0; i < row; i++){
-                                    for(int j = 0; j < column; j++){
+                                for (int i = 0; i < row; i++) {
+                                    for (int j = 0; j < column; j++) {
                                         value[i][j] = table1.getValueAt(i, j).toString().trim();
                                     }
                                 }
-                                serverfilename = serverFilePath+"\\"+value[rowcount][0];
+                                serverfilename = serverFilePath + "\\" + value[rowcount][0];
                                 try {
                                     new FileTransferClient("test").sendM(serverfilename);
                                 } catch (IOException ex) {
                                     ex.printStackTrace();
                                 }
-                                try {
-                                    new fClient().receive(clientFilePath+"\\"+value[rowcount][0]);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
+                                new fClient().receive(clientFilePath + "\\" + value[rowcount][0]);
                             }
                         });
                         frame1.setVisible(true);
