@@ -80,6 +80,20 @@ public class FileServer extends Thread{
 			}
 	}
 
+	public void netStartServer() throws IOException {
+		System.out.println("SOFEEM文件服务器已启动,等待连接...");
+		//循环监听是否有客户端上传到服务器文件
+		new FileTransferServer().start();
+		while(true){
+			File source = new File(new FileTree().serverfilename);
+			Socket s = server.accept();
+			System.out.println(s.getInetAddress().getHostAddress()+"进入服务器,准备传输...");
+			source = new File(getfilepath(s));
+			//根据每一个连接的客户端启动一条子线程
+			new FileServer(s, source).start();
+		}
+	}
+
 	public  static void main(String[] args) throws IOException {
 		System.out.println("SOFEEM文件服务器已启动,等待连接...");
 		//循环监听是否有客户端上传到服务器文件

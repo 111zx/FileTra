@@ -87,17 +87,17 @@ public class FileTree extends JDialog {
                 JFrame frame = new JFrame(filepath);
                 frame.setBounds(200, 150, 600, 400);
                 frame.setLayout(null);
-                //JLabel label1=new JLabel("æ–‡ä»¶ï¼š");
+                //JLabel label1=new JLabel("ÎÄ¼ş£º");
 
 
-                String path = filepath;        //è¦éå†çš„è·¯å¾„
-                File file = new File(path);        //è·å–å…¶fileå¯¹è±¡
-                File[] fs = file.listFiles();    //éå†pathä¸‹çš„æ–‡ä»¶å’Œç›®å½•ï¼Œæ”¾åœ¨Fileæ•°ç»„ä¸­
+                String path = filepath;        //Òª±éÀúµÄÂ·¾¶
+                File file = new File(path);        //»ñÈ¡Æäfile¶ÔÏó
+                File[] fs = file.listFiles();    //±éÀúpathÏÂµÄÎÄ¼şºÍÄ¿Â¼£¬·ÅÔÚFileÊı×éÖĞ
                 String[][] datas = new String[10000][2];
                 int i = 0;
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                for (File f : fs) {                    //éå†File[]æ•°ç»„
-                    if (!f.isDirectory()) {        //è‹¥éç›®å½•(å³æ–‡ä»¶)ï¼Œåˆ™æ‰“å°
+                for (File f : fs) {                    //±éÀúFile[]Êı×é
+                    if (!f.isDirectory()) {        //Èô·ÇÄ¿Â¼(¼´ÎÄ¼ş)£¬Ôò´òÓ¡
                         datas[i][0] = f.getName();
                         datas[i][1] = formatter.format(new Date(f.lastModified()));
                         i++;
@@ -108,13 +108,13 @@ public class FileTree extends JDialog {
 
                 JTable table = new JTable(tableModel);
 
-                JPanel panelUP = new JPanel();        // æ–°å»ºæŒ‰é’®ç»„ä»¶é¢æ¿
+                JPanel panelUP = new JPanel();        // ĞÂ½¨°´Å¥×é¼şÃæ°å
 
                 JScrollPane s = new JScrollPane(table);
 
                 s.setBounds(10, 10, 450, 600);
                 //panelUP.setBounds(5,70,320,550);
-                // å°†é¢æ¿å’Œè¡¨æ ¼åˆ†åˆ«æ·»åŠ åˆ°çª—ä½“ä¸­
+                // ½«Ãæ°åºÍ±í¸ñ·Ö±ğÌí¼Óµ½´°ÌåÖĞ
 
                 frame.add(panelUP);
                 frame.add(s);
@@ -143,18 +143,19 @@ public class FileTree extends JDialog {
 
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-                //æ–‡ä»¶ä¸Šä¼ 
+                //ÎÄ¼şÉÏ´«
                 upload.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         int rowcount = table.getSelectedRow();
-                        for (File f : fs) {                    //éå†File[]æ•°ç»„
-                            if (datas[rowcount][0].equals(f.getName())) {        //è‹¥éç›®å½•(å³æ–‡ä»¶)ï¼Œåˆ™æ‰“å°
+                        for (File f : fs) {                    //±éÀúFile[]Êı×é
+                            if (datas[rowcount][0].equals(f.getName())) {        //Èô·ÇÄ¿Â¼(¼´ÎÄ¼ş)£¬Ôò´òÓ¡
                                 System.out.println(datas[rowcount][0]);
                                 new fileaddsql().fileAdd(f.getName(), f.length(), serverFilePath + "\\" + f.getName());
                             }
                         }
                         try {
                             new FileTransferClient().sendFile(filepath + "\\" + datas[rowcount][0]);
+                            JOptionPane.showMessageDialog(null, "success£¡");
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
@@ -168,20 +169,20 @@ public class FileTree extends JDialog {
                         frame1.setLayout(null);
                         Vector rowData = PutinStorage.getRows();
 
-                        // å–å¾—hahaæ•°æ®åº“çš„aaè¡¨çš„è¡¨å¤´æ•°æ®
+                        // È¡µÃhahaÊı¾İ¿âµÄaa±íµÄ±íÍ·Êı¾İ
 
                         Vector columnNames = PutinStorage.getHead();
                         DefaultTableModel tableModel = new DefaultTableModel(rowData, columnNames);
 
                         JTable table1 = new JTable(tableModel);
 
-                        JPanel panelUP1 = new JPanel();        // æ–°å»ºæŒ‰é’®ç»„ä»¶é¢æ¿
+                        JPanel panelUP1 = new JPanel();        // ĞÂ½¨°´Å¥×é¼şÃæ°å
 
                         JScrollPane s1 = new JScrollPane(table1);
 
                         s1.setBounds(10, 10, 450, 600);
                         //panelUP.setBounds(5,70,320,550);
-                        // å°†é¢æ¿å’Œè¡¨æ ¼åˆ†åˆ«æ·»åŠ åˆ°çª—ä½“ä¸­
+                        // ½«Ãæ°åºÍ±í¸ñ·Ö±ğÌí¼Óµ½´°ÌåÖĞ
 
                         frame1.add(panelUP1);
                         frame1.add(s1);
@@ -201,9 +202,9 @@ public class FileTree extends JDialog {
                         download1.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent a) {
                                 int rowcount = table1.getSelectedRow();
-                                int column = table1.getColumnCount();        // è¡¨æ ¼åˆ—æ•°
-                                int row = table1.getRowCount();        // è¡¨æ ¼è¡Œæ•°
-                                // valueæ•°ç»„å­˜æ”¾è¡¨æ ¼ä¸­çš„æ‰€æœ‰æ•°æ®
+                                int column = table1.getColumnCount();        // ±í¸ñÁĞÊı
+                                int row = table1.getRowCount();        // ±í¸ñĞĞÊı
+                                // valueÊı×é´æ·Å±í¸ñÖĞµÄËùÓĞÊı¾İ
                                 String[][] value = new String[row][column];
                                 for (int i = 0; i < row; i++) {
                                     for (int j = 0; j < column; j++) {
@@ -217,6 +218,7 @@ public class FileTree extends JDialog {
                                     ex.printStackTrace();
                                 }
                                 new fClient().receive(clientFilePath + "\\" + value[rowcount][0]);
+                                JOptionPane.showMessageDialog(null, "success£¡");
                             }
                         });
                         frame1.setVisible(true);
