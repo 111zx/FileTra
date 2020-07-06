@@ -80,6 +80,8 @@ public class FileServer extends Thread{
 	public  static void main(String[] args) throws IOException {
 		ServerSocket server = new ServerSocket(6788);
 		System.out.println("SOFEEM文件服务器已启动,等待连接...");
+		//循环监听
+		new FileTransferServer().start();
 		while(true){
 			File source = new File(new FileTree().serverfilename);
 			Socket s = server.accept();
